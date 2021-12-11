@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<OrderItem>
+@{
+    ViewBag.Title = "Order List";
+}
+
+<h2>Order List</h2>
+
+
+<a asp-controller="OrderItem" asp-action="Add">Add New Order</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Pickup Date</th>
+            <th>Customer</th>>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>@item.ItemName</td>
+            <td>@item.pickupDate</td>
+            <td>@item.FullName</td>
+            <td>@item.setStatus()</td>
+
+            <td>
+                <a asp-controller="OrderItem" asp-action="Edit" asp-route-id="@item.OrderItemId">Edit</a>
+                <a asp-controller="OrderItem" asp-action="Delete" asp-route-id="@item.OrderItemId">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

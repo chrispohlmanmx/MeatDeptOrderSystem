@@ -10,11 +10,18 @@ namespace MeatDeptOrderSystem.Models
     {
         public int OrderItemId { get; set; }
 
-        public int CustomerId { get; set; }
-        [Required]
-        public Customer customer { get; set; }
+        [Required(ErrorMessage = "Please enter a First Name.")]
+        public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter a Last Name.")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Please enter a Phone Number.")]
+        [StringLength(10)]
+        public string Phone { get; set; }
+
+        public string FullName => $"{FirstName} {LastName}";
+
         public User user { get; set; }
 
         [Required(ErrorMessage ="Please enter a name for the item.")]
@@ -30,6 +37,8 @@ namespace MeatDeptOrderSystem.Models
         public double Weight { get; set; }
 
         [Required(ErrorMessage ="Please enter the Date for the order to be picked up.")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime pickupDate { get; set; }
 
         public DateTime orderedOnDate { get; set; }
@@ -48,6 +57,22 @@ namespace MeatDeptOrderSystem.Models
         public bool IsOnOrder { get; set; }
 
         public bool IsComplete { get; set; }
+
+        public string setStatus()
+        {
+            string status = "Order Placed";
+            if (this.IsComplete)
+            {
+                status = "Complete";
+            }else if (this.IsReady)
+            {
+                status = "Ready";
+            }else if (this.IsOnOrder)
+            {
+                status = "On Order";
+            }
+            return status;
+        }
 
 
 

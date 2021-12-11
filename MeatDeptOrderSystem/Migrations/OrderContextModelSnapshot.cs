@@ -19,31 +19,6 @@ namespace MeatDeptOrderSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("MeatDeptOrderSystem.Models.Customer", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.HasKey("CustomerId");
-
-                    b.ToTable("Customers");
-                });
-
             modelBuilder.Entity("MeatDeptOrderSystem.Models.OrderItem", b =>
                 {
                     b.Property<int>("OrderItemId")
@@ -51,10 +26,11 @@ namespace MeatDeptOrderSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CuttingInstructions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsComplete")
@@ -73,6 +49,10 @@ namespace MeatDeptOrderSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LocatedIn")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,6 +61,11 @@ namespace MeatDeptOrderSystem.Migrations
 
                     b.Property<string>("PackagingInstructions")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -95,12 +80,9 @@ namespace MeatDeptOrderSystem.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("userId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("OrderItemId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("userId");
 
@@ -157,9 +139,6 @@ namespace MeatDeptOrderSystem.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
@@ -170,17 +149,9 @@ namespace MeatDeptOrderSystem.Migrations
 
             modelBuilder.Entity("MeatDeptOrderSystem.Models.OrderItem", b =>
                 {
-                    b.HasOne("MeatDeptOrderSystem.Models.Customer", "customer")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MeatDeptOrderSystem.Models.User", "user")
                         .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("userId");
                 });
 #pragma warning restore 612, 618
         }

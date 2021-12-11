@@ -5,8 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Views\Home\" />
+    <Compile Remove="Migrations\20211211004730_initial.cs" />
+    <Compile Remove="Migrations\20211211004730_initial.Designer.cs" />
+    <Compile Remove="Migrations\20211211010835_customerSeed.cs" />
+    <Compile Remove="Migrations\20211211010835_customerSeed.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +17,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

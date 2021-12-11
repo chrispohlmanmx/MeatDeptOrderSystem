@@ -13,10 +13,9 @@ namespace MeatDeptOrderSystem.Models
         { }
 
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-
-
        
+
+          
                
         
     }
