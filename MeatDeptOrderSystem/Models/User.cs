@@ -9,8 +9,9 @@ namespace MeatDeptOrderSystem.Models
 {
     public class User : IdentityUser
     {
-        [NotMapped]
+       
         public string UserId { get; set; }
+        [NotMapped]
         public IList<string> RoleNames { get; set; }
 
         public string FirstName { get; set; }

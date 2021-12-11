@@ -8,8 +8,9 @@ namespace MeatDeptOrderSystem.Models
 {
     public class OrderItem
     {
-        public int OrderID { get; set; }
+        public int OrderItemId { get; set; }
 
+        public int CustomerId { get; set; }
         [Required]
         public Customer customer { get; set; }
 

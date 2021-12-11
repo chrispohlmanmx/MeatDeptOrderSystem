@@ -21,5 +21,9 @@ namespace MeatDeptOrderSystem.Models
         public string Phone { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
+
+        public ICollection<OrderItem> OrderItems { get; set; }
+
+        
     }
 }
