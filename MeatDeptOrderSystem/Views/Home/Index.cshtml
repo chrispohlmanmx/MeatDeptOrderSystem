@@ -14,22 +14,41 @@
     <thead>
         <tr>
             <th>Item</th>
-            <th>Pickup Date</th>
+            <th>Pickup Date/Time</th>
             <th>Customer</th>>
             <th>Status</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model) {
+            item.setStatus();
         <tr>
             <td>@item.ItemName</td>
             <td>@item.pickupDate</td>
             <td>@item.FullName</td>
-            <td>@item.setStatus()</td>
+            <td class="
+                @switch (item.Status)
+                {
+                    case "Order Placed":
+                        <text>bg-info</text>
+                        break;
+                    case "Ready":
+                        <text>bg-success</text>
+                        break;
+                    case "Complete":
+                        <text>bg-secondary</text>
+                        break;
+                    case "Overdue":
+                        <text>bg-danger</text>
+                        break;
+                    case "ON":
+                        <text>bg-danger</text>
+                        break;
+                
+                }">@item.Status</td>
 
             <td>
-                <a asp-controller="OrderItem" asp-action="Edit" asp-route-id="@item.OrderItemId">Edit</a>
-                <a asp-controller="OrderItem" asp-action="Delete" asp-route-id="@item.OrderItemId">Delete</a>
+                <a asp-controller="OrderItem" asp-action="Details" asp-route-id="@item.OrderItemId" class="btn btn-primary">Details</a>
             </td>
         </tr>
         }

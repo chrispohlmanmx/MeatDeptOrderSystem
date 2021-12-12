@@ -37,8 +37,8 @@ namespace MeatDeptOrderSystem.Models
         public double Weight { get; set; }
 
         [Required(ErrorMessage ="Please enter the Date for the order to be picked up.")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString ="{0:yyyy-MM-dd hh:mm tt}", ApplyFormatInEditMode = true)]
         public DateTime pickupDate { get; set; }
 
         public DateTime orderedOnDate { get; set; }
@@ -58,22 +58,39 @@ namespace MeatDeptOrderSystem.Models
 
         public bool IsComplete { get; set; }
 
-        public string setStatus()
+        public string Status { get; set; }
+
+        private bool IsOverDue(DateTime date)
         {
-            string status = "Order Placed";
-            if (this.IsComplete)
+            date = this.pickupDate;
+            if(pickupDate < DateTime.Now)
             {
-                status = "Complete";
-            }else if (this.IsReady)
-            {
-                status = "Ready";
-            }else if (this.IsOnOrder)
-            {
-                status = "On Order";
+                return true;
             }
-            return status;
+            else
+            {
+                return false;
+            }
         }
 
+        public void setStatus()
+        {
+            this.Status= "Order Placed";
+            if (this.IsComplete)
+            {
+                this.Status = "Complete";
+            }else if (this.IsReady)
+            {
+                this.Status = "Ready";
+            }else if (this.IsOnOrder)
+            {
+                this.Status = "On Order";
+            }else if (IsOverDue(this.pickupDate)) {
+                this.Status = "Overdue";
+            }
+        }
+
+       
 
 
     }

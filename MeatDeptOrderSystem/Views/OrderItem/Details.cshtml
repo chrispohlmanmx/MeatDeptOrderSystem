@@ -1,0 +1,94 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model OrderItem
+@{
+    string title = Model.FullName + "'s Order";
+    ViewBag.Title = title;
+}
+
+<h1 class="text-center">@title</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <h2>Customer Details</h2>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.FirstName</td>
+                        <td>@Model.LastName</td>
+                        <td>@Model.Phone</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-sm-6">
+            <h2>Item Details</h2>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>Item Name</td>
+                    <td>@Model.ItemName</td>
+                </tr>
+                <tr>
+                    <td>Item Brand</td>
+                    <td>@Model.ItemBrand</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>@Model.Status</td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td>@Model.Quantity.ToString()</td>
+                </tr>
+                <tr>
+                    <td>Weight</td>
+                    <td>@Model.Weight.ToString()</td>
+                </tr>
+                <tr>
+                    <td>Pickup Date/Time</td>
+                    <td>@Model.pickupDate.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <td>Located In</td>
+                    <td>@Model.LocatedIn</td>
+                </tr>
+                <tr>
+                    <td>Cutting Instructions</td>
+                    <td>@Model.CuttingInstructions</td>
+                </tr>
+                <tr>
+                    <td>Packaging Instructions</td>
+                    <td>@Model.PackagingInstructions</td>
+                </tr>
+                <tr>
+                    <td>Comments</td>
+                    <td>@Model.OtherComments</td>
+                </tr>
+                <tr>
+                    <td>Ordered On</td>
+                    <td>@Model.orderedOnDate.ToShortDateString()</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <a asp-controller="OrderItem" asp-action="Edit" asp-route-id="@Model.OrderItemId">Edit</a>
+                        <a asp-controller="OrderItem" asp-action="Delete" asp-route-id="@Model.OrderItemId">Delete</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

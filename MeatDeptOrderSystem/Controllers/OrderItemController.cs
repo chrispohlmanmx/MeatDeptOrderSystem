@@ -33,13 +33,15 @@ namespace MeatDeptOrderSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(item.OrderItemId == 0)
+                if (item.OrderItemId == 0)
                 {
                     context.OrderItems.Add(item);
+                    item.setStatus();
                 }
                 else
                 {
                     context.OrderItems.Update(item);
+                    item.setStatus();
                 }
                 context.SaveChanges();
                 return RedirectToAction("Index", "Home");
@@ -49,6 +51,12 @@ namespace MeatDeptOrderSystem.Controllers
                 ViewBag.Action = (item.OrderItemId == 0) ? "Add" : "Edit";
                 return View(item);
             }
+        }
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var item = context.OrderItems.Find(id);
+            return View(item);
         }
 
         [HttpGet]

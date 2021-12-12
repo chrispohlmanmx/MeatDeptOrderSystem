@@ -12,15 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bootstrap.v3.Datetimepicker.CSS" Version="4.17.49" />
+    <PackageReference Include="jQuery.UI" Version="1.12.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Moment.js" Version="2.29.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>

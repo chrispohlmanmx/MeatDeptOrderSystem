@@ -70,6 +70,9 @@ namespace MeatDeptOrderSystem.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Weight")
                         .HasColumnType("float");
 
