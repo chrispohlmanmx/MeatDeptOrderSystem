@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model OrderItem
+@{
+    string title = Model.FullName + "'s order";
+    ViewBag.Title = title;
+}
+
+<h1>@title</h1>
+
+
+
+<form asp-action="Pull" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="LocatedIn" class="form-control">Location of Completed Order</label>
+        @Html.DropDownList("LocatedIn", Html.GetEnumSelectList<OrderItem.Locations>(), "Select Location", new {@class = "form-control"})
+    </div>
+    <input type="hidden" asp-for="OrderItemId" />
+    <input type="hidden" asp-for="FirstName" value="@Model.FirstName" />
+    <input type="hidden" asp-for="IsReady" value="true" />
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

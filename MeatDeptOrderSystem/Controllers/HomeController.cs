@@ -17,7 +17,7 @@ namespace MeatDeptOrderSystem.Controllers
         }
         public IActionResult Index()
         {
-            var items = context.OrderItems.OrderBy(oi => oi.ItemName).ToList();
+            var items = context.OrderItems.OrderBy(oi => oi.pickupDate).ToList();
             return View(items);
         }
     }

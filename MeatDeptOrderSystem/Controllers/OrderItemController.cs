@@ -35,13 +35,15 @@ namespace MeatDeptOrderSystem.Controllers
             {
                 if (item.OrderItemId == 0)
                 {
-                    context.OrderItems.Add(item);
                     item.setStatus();
+                    context.OrderItems.Add(item);
+                    
                 }
                 else
                 {
-                    context.OrderItems.Update(item);
                     item.setStatus();
+                    context.OrderItems.Update(item);
+                    
                 }
                 context.SaveChanges();
                 return RedirectToAction("Index", "Home");
@@ -57,6 +59,23 @@ namespace MeatDeptOrderSystem.Controllers
         {
             var item = context.OrderItems.Find(id);
             return View(item);
+        }
+
+        [HttpGet]
+        public IActionResult Pull(int id)
+        {
+            var item = context.OrderItems.Find(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult Pull(OrderItem item)
+        {
+            context.OrderItems.Attach(item);
+            context.Entry(item).Property(x => x.LocatedIn).IsModified = true;
+            context.Entry(item).Property(x => x.IsReady).IsModified = true;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

@@ -44,7 +44,27 @@
                 </tr>
                 <tr>
                     <td>Status</td>
-                    <td>@Model.Status</td>
+                   
+                    <td class="
+                @switch (Model.Status)
+                {
+                    case "Order Placed":
+                        <text>bg-info</text>
+                        break;
+                    case "Ready":
+                        <text>bg-success</text>
+                        break;
+                    case "Complete":
+                        <text>bg-secondary</text>
+                        break;
+                    case "Overdue":
+                        <text>bg-danger</text>
+                        break;
+                    case "ON":
+                        <text>bg-danger</text>
+                        break;
+                
+                }">@Model.Status</td>
                 </tr>
                 <tr>
                     <td>Quantity</td>
@@ -56,7 +76,7 @@
                 </tr>
                 <tr>
                     <td>Pickup Date/Time</td>
-                    <td>@Model.pickupDate.ToShortDateString()</td>
+                    <td>@Model.pickupDate.ToString("g")</td>
                 </tr>
                 <tr>
                     <td>Located In</td>
@@ -76,13 +96,14 @@
                 </tr>
                 <tr>
                     <td>Ordered On</td>
-                    <td>@Model.orderedOnDate.ToShortDateString()</td>
+                    <td>@Model.orderedOnDate.ToString("g")</td>
                 </tr>
 
                 <tr>
                     <td>
-                        <a asp-controller="OrderItem" asp-action="Edit" asp-route-id="@Model.OrderItemId">Edit</a>
-                        <a asp-controller="OrderItem" asp-action="Delete" asp-route-id="@Model.OrderItemId">Delete</a>
+                        <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@Model.OrderItemId" class="btn btn-primary">Pull</a>
+                        <a asp-controller="OrderItem" asp-action="Edit" asp-route-id="@Model.OrderItemId" class="btn btn-outline-primary">Edit</a>
+                        <a asp-controller="OrderItem" asp-action="Delete" asp-route-id="@Model.OrderItemId" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             </table>
