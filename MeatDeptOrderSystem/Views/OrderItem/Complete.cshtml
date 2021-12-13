@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model OrderItem
+@{
+    ViewBag.Title = "Complete Order";
+}
+
+<h2>Confirm Order has been Completed</h2>
+<h3>@Model.ItemName For @Model.FullName</h3>
+
+<form asp-action="Complete" method="post">
+    <input type="hidden" asp-for="OrderItemId" />
+    <input type="hidden" asp-for="IsComplete" value="true" />
+
+    <button type="submit" class="btn btn-primary">Complete</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

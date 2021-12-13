@@ -105,7 +105,10 @@
                         {
                             <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@Model.OrderItemId" class="btn btn-primary">Pull</a>
                         }
-
+                        @if (!Model.IsComplete)
+                        {
+                            <a asp-controller="OrderItem" asp-action="Complete" asp-route-id="@Model.OrderItemId" class="btn btn-primary">Complete</a>
+                        }
                         <a asp-controller="OrderItem" asp-action="Edit" asp-route-id="@Model.OrderItemId" class="btn btn-outline-primary">Edit</a>
                         <a asp-controller="OrderItem" asp-action="Delete" asp-route-id="@Model.OrderItemId" class="btn btn-danger">Delete</a>
                     </td>

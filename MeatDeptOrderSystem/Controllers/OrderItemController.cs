@@ -80,6 +80,22 @@ namespace MeatDeptOrderSystem.Controllers
         }
 
         [HttpGet]
+        public IActionResult Complete(int id)
+        {
+            var item = context.OrderItems.Find(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult Complete(OrderItem item)
+        {
+            context.OrderItems.Attach(item);
+            context.Entry(item).Property(x => x.IsComplete).IsModified = true;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
         public IActionResult Delete (int id)
         {
             var item = context.OrderItems.Find(id);
