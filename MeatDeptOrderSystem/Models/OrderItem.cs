@@ -17,7 +17,6 @@ namespace MeatDeptOrderSystem.Models
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter a Phone Number.")]
-        [StringLength(10)]
         public string Phone { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
@@ -44,7 +43,17 @@ namespace MeatDeptOrderSystem.Models
         public DateTime orderedOnDate { get; set; }
 
 
-        public string LocatedIn { get; set; }
+        public enum Locations
+        {
+            none,
+            MeatCooler,
+            SeafoodCooler,
+            Freezer,
+            MeatAndCheeseCooler
+
+        }
+
+        public Locations LocatedIn { get; set; }
 
         public string CuttingInstructions { get; set; }
 

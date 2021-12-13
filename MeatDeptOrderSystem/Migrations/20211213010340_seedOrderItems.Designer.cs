@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeatDeptOrderSystem.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20211212192645_updatePickupDate")]
-    partial class updatePickupDate
+    [Migration("20211213010340_seedOrderItems")]
+    partial class seedOrderItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,8 +55,8 @@ namespace MeatDeptOrderSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LocatedIn")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LocatedIn")
+                        .HasColumnType("int");
 
                     b.Property<string>("OtherComments")
                         .HasColumnType("nvarchar(max)");
@@ -66,11 +66,13 @@ namespace MeatDeptOrderSystem.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");
@@ -89,6 +91,25 @@ namespace MeatDeptOrderSystem.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderItemId = 1,
+                            FirstName = "John",
+                            IsComplete = false,
+                            IsOnOrder = false,
+                            IsReady = true,
+                            ItemBrand = "hy-vee",
+                            ItemName = "Turkey",
+                            LastName = "Doe",
+                            LocatedIn = 0,
+                            Phone = "5553334444",
+                            Quantity = 2,
+                            Weight = 12.0,
+                            orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            pickupDate = new DateTime(2021, 12, 12, 0, 0, 0, 0, DateTimeKind.Local)
+                        });
                 });
 
             modelBuilder.Entity("MeatDeptOrderSystem.Models.User", b =>

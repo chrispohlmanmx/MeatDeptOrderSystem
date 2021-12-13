@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeatDeptOrderSystem.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20211211013956_initial")]
+    [Migration("20211213005132_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,8 +55,8 @@ namespace MeatDeptOrderSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LocatedIn")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LocatedIn")
+                        .HasColumnType("int");
 
                     b.Property<string>("OtherComments")
                         .HasColumnType("nvarchar(max)");
@@ -66,11 +66,13 @@ namespace MeatDeptOrderSystem.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");

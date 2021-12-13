@@ -42,7 +42,7 @@ namespace MeatDeptOrderSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
-                    Phone = table.Column<string>(maxLength: 10, nullable: false),
+                    Phone = table.Column<string>(nullable: false),
                     userId = table.Column<string>(nullable: true),
                     ItemName = table.Column<string>(nullable: false),
                     ItemBrand = table.Column<string>(nullable: true),
@@ -50,13 +50,14 @@ namespace MeatDeptOrderSystem.Migrations
                     Weight = table.Column<double>(nullable: false),
                     pickupDate = table.Column<DateTime>(nullable: false),
                     orderedOnDate = table.Column<DateTime>(nullable: false),
-                    LocatedIn = table.Column<string>(nullable: true),
+                    LocatedIn = table.Column<int>(nullable: false),
                     CuttingInstructions = table.Column<string>(nullable: true),
                     PackagingInstructions = table.Column<string>(nullable: true),
                     OtherComments = table.Column<string>(nullable: true),
                     IsReady = table.Column<bool>(nullable: false),
                     IsOnOrder = table.Column<bool>(nullable: false),
-                    IsComplete = table.Column<bool>(nullable: false)
+                    IsComplete = table.Column<bool>(nullable: false),
+                    Status = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
