@@ -71,6 +71,7 @@ namespace MeatDeptOrderSystem.Controllers
         [HttpPost]
         public IActionResult Pull(OrderItem item)
         {
+            //update just the relevant fields
             context.OrderItems.Attach(item);
             context.Entry(item).Property(x => x.LocatedIn).IsModified = true;
             context.Entry(item).Property(x => x.IsReady).IsModified = true;

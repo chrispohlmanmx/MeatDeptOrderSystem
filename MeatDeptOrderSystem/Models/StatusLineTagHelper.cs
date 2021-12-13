@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MeatDeptOrderSystem.Models
 {
-
+    //I don't think this will work until I implement some Interfaces for my model 
     [HtmlTargetElement("td", Attributes = "my-status")]
     public class StatusLineTagHelper : TagHelper
     {
