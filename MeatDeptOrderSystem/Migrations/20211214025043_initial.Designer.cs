@@ -4,14 +4,16 @@ using MeatDeptOrderSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeatDeptOrderSystem.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    partial class OrderContextModelSnapshot : ModelSnapshot
+    [Migration("20211214025043_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,8 +113,8 @@ namespace MeatDeptOrderSystem.Migrations
                     b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Weight")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("orderedOnDate")
                         .HasColumnType("datetime2");
@@ -143,9 +145,9 @@ namespace MeatDeptOrderSystem.Migrations
                             Quantity = 2,
                             StatusId = "ready",
                             UserId = 0,
-                            Weight = "12lb",
+                            Weight = 12.0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            pickupDate = new DateTime(2021, 12, 14, 0, 0, 0, 0, DateTimeKind.Local)
+                            pickupDate = new DateTime(2021, 12, 13, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -159,7 +161,7 @@ namespace MeatDeptOrderSystem.Migrations
                             Quantity = 1,
                             StatusId = "on order",
                             UserId = 0,
-                            Weight = "12lb",
+                            Weight = 12.0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 8, 15, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -175,6 +177,7 @@ namespace MeatDeptOrderSystem.Migrations
                             Quantity = 1,
                             StatusId = "placed",
                             UserId = 0,
+                            Weight = 0.0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 12, 15, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -192,6 +195,7 @@ namespace MeatDeptOrderSystem.Migrations
                             Quantity = 1,
                             StatusId = "placed",
                             UserId = 0,
+                            Weight = 0.0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 12, 15, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -207,7 +211,7 @@ namespace MeatDeptOrderSystem.Migrations
                             Quantity = 1,
                             StatusId = "placed",
                             UserId = 0,
-                            Weight = "6lb",
+                            Weight = 6.0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 12, 24, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         });

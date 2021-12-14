@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeatDeptOrderSystem.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20211213015811_seedOrders")]
-    partial class seedOrders
+    [Migration("20211214184527_updated-weight")]
+    partial class updatedweight
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,46 @@ namespace MeatDeptOrderSystem.Migrations
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MeatDeptOrderSystem.Models.Location", b =>
+                {
+                    b.Property<string>("LocationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LocationId");
+
+                    b.ToTable("Locations");
+
+                    b.HasData(
+                        new
+                        {
+                            LocationId = "meatCooler",
+                            Name = "Meat Cooler"
+                        },
+                        new
+                        {
+                            LocationId = "seafoodCooler",
+                            Name = "Seafood Cooler"
+                        },
+                        new
+                        {
+                            LocationId = "meatFreezer",
+                            Name = "Meat Freezer"
+                        },
+                        new
+                        {
+                            LocationId = "meatAndCheeseCooler",
+                            Name = "Meat and Cheese Cooler"
+                        },
+                        new
+                        {
+                            LocationId = "unPicked",
+                            Name = "Not Yet Picked"
+                        });
+                });
 
             modelBuilder.Entity("MeatDeptOrderSystem.Models.OrderItem", b =>
                 {
@@ -35,15 +75,6 @@ namespace MeatDeptOrderSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOnOrder")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReady")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ItemBrand")
                         .HasColumnType("nvarchar(max)");
 
@@ -55,8 +86,9 @@ namespace MeatDeptOrderSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LocatedIn")
-                        .HasColumnType("int");
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("OtherComments")
                         .HasColumnType("nvarchar(max)");
@@ -71,11 +103,18 @@ namespace MeatDeptOrderSystem.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("StatusId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("Weight")
-                        .HasColumnType("float");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Weight")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("orderedOnDate")
                         .HasColumnType("datetime2");
@@ -83,12 +122,13 @@ namespace MeatDeptOrderSystem.Migrations
                     b.Property<DateTime>("pickupDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("OrderItemId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("OrderItems");
 
@@ -97,33 +137,31 @@ namespace MeatDeptOrderSystem.Migrations
                         {
                             OrderItemId = 1,
                             FirstName = "John",
-                            IsComplete = false,
-                            IsOnOrder = false,
-                            IsReady = true,
                             ItemBrand = "hy-vee",
                             ItemName = "Turkey",
                             LastName = "Doe",
-                            LocatedIn = 0,
+                            LocationId = "meatCooler",
                             Phone = "5553334444",
                             Quantity = 2,
-                            Weight = 12.0,
+                            StatusId = "ready",
+                            UserId = 0,
+                            Weight = "12lb",
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            pickupDate = new DateTime(2021, 12, 12, 0, 0, 0, 0, DateTimeKind.Local)
+                            pickupDate = new DateTime(2021, 12, 14, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             OrderItemId = 2,
                             FirstName = "Jane",
-                            IsComplete = false,
-                            IsOnOrder = false,
-                            IsReady = false,
                             ItemBrand = "hy-vee",
                             ItemName = "Ham",
                             LastName = "Doe",
-                            LocatedIn = 0,
+                            LocationId = "unPicked",
                             Phone = "5553335544",
                             Quantity = 1,
-                            Weight = 12.0,
+                            StatusId = "on order",
+                            UserId = 0,
+                            Weight = "12lb",
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 8, 15, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -131,16 +169,14 @@ namespace MeatDeptOrderSystem.Migrations
                         {
                             OrderItemId = 6,
                             FirstName = "Mark",
-                            IsComplete = false,
-                            IsOnOrder = false,
-                            IsReady = false,
                             ItemBrand = "hy-vee",
                             ItemName = "Ham steak",
                             LastName = "Doe",
-                            LocatedIn = 0,
+                            LocationId = "unPicked",
                             Phone = "5553335566",
                             Quantity = 1,
-                            Weight = 0.0,
+                            StatusId = "placed",
+                            UserId = 0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 12, 15, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -149,17 +185,15 @@ namespace MeatDeptOrderSystem.Migrations
                             OrderItemId = 5,
                             CuttingInstructions = "cut into 3 pieces",
                             FirstName = "Mark",
-                            IsComplete = false,
-                            IsOnOrder = false,
-                            IsReady = false,
                             ItemName = "Pigs feet",
                             LastName = "Brandanawitz",
-                            LocatedIn = 0,
+                            LocationId = "unPicked",
                             OtherComments = "They want 1 whole case",
                             PackagingInstructions = "6 pieces to a package",
                             Phone = "5553335566",
                             Quantity = 1,
-                            Weight = 0.0,
+                            StatusId = "placed",
+                            UserId = 0,
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 12, 15, 8, 30, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -168,17 +202,56 @@ namespace MeatDeptOrderSystem.Migrations
                             OrderItemId = 4,
                             CuttingInstructions = "trim a little extra fat off",
                             FirstName = "Jack",
-                            IsComplete = false,
-                            IsOnOrder = false,
-                            IsReady = false,
                             ItemName = "Boneless Rib Roast",
                             LastName = "Doe",
-                            LocatedIn = 0,
+                            LocationId = "unPicked",
                             Phone = "5552235566",
                             Quantity = 1,
-                            Weight = 6.0,
+                            StatusId = "placed",
+                            UserId = 0,
+                            Weight = "6lb",
                             orderedOnDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             pickupDate = new DateTime(2021, 12, 24, 8, 30, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("MeatDeptOrderSystem.Models.Status", b =>
+                {
+                    b.Property<string>("StatusId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StatusId");
+
+                    b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = "ready",
+                            Name = "Ready"
+                        },
+                        new
+                        {
+                            StatusId = "on order",
+                            Name = "On Order"
+                        },
+                        new
+                        {
+                            StatusId = "complete",
+                            Name = "Complete"
+                        },
+                        new
+                        {
+                            StatusId = "overdue",
+                            Name = "Overdue"
+                        },
+                        new
+                        {
+                            StatusId = "placed",
+                            Name = "Order Placed"
                         });
                 });
 
@@ -242,9 +315,21 @@ namespace MeatDeptOrderSystem.Migrations
 
             modelBuilder.Entity("MeatDeptOrderSystem.Models.OrderItem", b =>
                 {
-                    b.HasOne("MeatDeptOrderSystem.Models.User", "user")
+                    b.HasOne("MeatDeptOrderSystem.Models.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeatDeptOrderSystem.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeatDeptOrderSystem.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,8 +17,27 @@ namespace MeatDeptOrderSystem.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.Action = "Add";
-            return View("Edit", new OrderItem());
+            var model = new OrderItemViewModel();
+            model.Locations = context.Locations.ToList();
+            model.Statuses = context.Statuses.ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Add(OrderItemViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                context.OrderItems.Add(model.CurrentOrder);   
+                context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                model.Locations = context.Locations.ToList();
+                model.Statuses = context.Statuses.ToList();
+                return View(model);
+            }
         }
 
         public IActionResult Edit(int OrderItemId)
@@ -33,18 +52,7 @@ namespace MeatDeptOrderSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (item.OrderItemId == 0)
-                {
-                    item.setStatus();
-                    context.OrderItems.Add(item);
-                    
-                }
-                else
-                {
-                    item.setStatus();
-                    context.OrderItems.Update(item);
-                    
-                }
+                context.OrderItems.Update(item);  
                 context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
@@ -57,8 +65,8 @@ namespace MeatDeptOrderSystem.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var item = context.OrderItems.Find(id);
-            return View(item);
+            var orderitem = context.OrderItems.Find(id);
+            return View(orderitem);
         }
 
         [HttpGet]
@@ -73,8 +81,8 @@ namespace MeatDeptOrderSystem.Controllers
         {
             //update just the relevant fields
             context.OrderItems.Attach(item);
-            context.Entry(item).Property(x => x.LocatedIn).IsModified = true;
-            context.Entry(item).Property(x => x.IsReady).IsModified = true;
+            context.Entry(item).Property(x => x.LocationId).IsModified = true;
+            context.Entry(item).Property(x => x.StatusId).IsModified = true;
             context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
@@ -90,7 +98,7 @@ namespace MeatDeptOrderSystem.Controllers
         public IActionResult Complete(OrderItem item)
         {
             context.OrderItems.Attach(item);
-            context.Entry(item).Property(x => x.IsComplete).IsModified = true;
+            context.Entry(item).Property(x => x.StatusId).IsModified = true;
             context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }

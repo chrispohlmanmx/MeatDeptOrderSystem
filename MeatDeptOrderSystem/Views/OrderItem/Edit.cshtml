@@ -4,7 +4,7 @@
 *@
 @model OrderItem
 @{
-    string title = ViewBag.Action + " Item";
+    string title = "Edit Item";
     ViewBag.Title = title;
 }
 
@@ -65,7 +65,7 @@
     </div>
     <input type="hidden" asp-for="OrderItemId" />
     <input type="hidden" asp-for="orderedOnDate" value="@DateTime.Now" />
-    <input type="hidden" asp-for="LocatedIn" value="@OrderItem.Locations.none" />
+    
 
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>

@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20211211010835_customerSeed.Designer.cs" />
     <Compile Remove="Migrations\20211213005002_initial.cs" />
     <Compile Remove="Migrations\20211213005002_initial.Designer.cs" />
+    <Compile Remove="Migrations\20211213015811_seedOrders.cs" />
+    <Compile Remove="Migrations\20211213015811_seedOrders.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

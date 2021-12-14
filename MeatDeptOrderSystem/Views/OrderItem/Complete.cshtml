@@ -11,7 +11,7 @@
 
 <form asp-action="Complete" method="post">
     <input type="hidden" asp-for="OrderItemId" />
-    <input type="hidden" asp-for="IsComplete" value="true" />
+    <input type="hidden" asp-for="StatusId" value="complete" />
 
     <button type="submit" class="btn btn-primary">Complete</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>

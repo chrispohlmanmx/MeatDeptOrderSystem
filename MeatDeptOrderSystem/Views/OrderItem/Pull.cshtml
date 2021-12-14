@@ -1,9 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model OrderItem
+@model OrderItemViewModel
 @{
-    string title = Model.FullName + "'s order";
+    string title = Model.CurrentOrder.FullName + "'s order";
     ViewBag.Title = title;
 }
 
@@ -15,12 +15,13 @@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="form-group">
-        <label asp-for="LocatedIn" class="form-control">Location of Completed Order</label>
-        @Html.DropDownList("LocatedIn", Html.GetEnumSelectList<OrderItem.Locations>(), "Select Location", new {@class = "form-control"})
+        <label asp-for="CurrentOrder.LocationId" class="form-control">Location of Completed Order</label>
+        <select asp-for="CurrentOrder.LocationId" class="form-control" asp-items="@(new SelectList(Model.Locations, "LocationId", "Name"))">
+            <option value=""></option>
+        </select>
     </div>
-    <input type="hidden" asp-for="OrderItemId" />
-    <input type="hidden" asp-for="FirstName" value="@Model.FirstName" />
-    <input type="hidden" asp-for="IsReady" value="true" />
+    <input type="hidden" asp-for="CurrentOrder.OrderItemId" />
+    <input type="hidden" asp-for="CurrentOrder.StatusId" value="ready" />
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>

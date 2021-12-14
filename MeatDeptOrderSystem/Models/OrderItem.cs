@@ -21,7 +21,8 @@ namespace MeatDeptOrderSystem.Models
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public User user { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
         [Required(ErrorMessage ="Please enter a name for the item.")]
         public string ItemName { get; set; }
@@ -32,8 +33,8 @@ namespace MeatDeptOrderSystem.Models
         [Range(1,1000)]
         public int Quantity { get; set; }
 
-        [Range(0,1000)]
-        public double Weight { get; set; }
+        
+        public string Weight { get; set; }
 
         [Required(ErrorMessage ="Please enter the Date for the order to be picked up.")]
         [DataType(DataType.DateTime)]
@@ -42,18 +43,13 @@ namespace MeatDeptOrderSystem.Models
 
         public DateTime orderedOnDate { get; set; }
 
-
-        public enum Locations
-        {
-            none,
-            MeatCooler,
-            SeafoodCooler,
-            Freezer,
-            MeatAndCheeseCooler
-
-        }
-
-        public Locations LocatedIn { get; set; }
+        [Required(ErrorMessage ="Please Select a Status.")]
+        public string StatusId { get; set; }
+        public Status Status { get; set; }
+        
+        [Required(ErrorMessage ="Please select a location.")]
+        public string LocationId { get; set; }
+        public Location Location { get; set; }
 
         public string CuttingInstructions { get; set; }
 
@@ -61,43 +57,11 @@ namespace MeatDeptOrderSystem.Models
 
         public string OtherComments { get; set; }
 
-        public bool IsReady { get; set; }
 
-        public bool IsOnOrder { get; set; }
 
-        public bool IsComplete { get; set; }
-
-        public string Status { get; set; }
-
-        private bool IsOverDue(DateTime date)
-        {
-            date = this.pickupDate;
-            if(pickupDate < DateTime.Now)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void setStatus()
-        {
-            this.Status= "Order Placed";
-            if (this.IsComplete)
-            {
-                this.Status = "Complete";
-            }else if (this.IsReady)
-            {
-                this.Status = "Ready";
-            }else if (this.IsOnOrder)
-            {
-                this.Status = "On Order";
-            }else if (IsOverDue(this.pickupDate)) {
-                this.Status = "Overdue";
-            }
-        }
+        public bool IsOverDue =>
+            StatusId != "complete" && pickupDate < DateTime.Today;
+        
 
        
 

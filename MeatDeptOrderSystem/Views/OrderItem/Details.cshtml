@@ -5,6 +5,7 @@
 @{
     string title = Model.FullName + "'s Order";
     ViewBag.Title = title;
+    
 }
 
 <h1 class="text-center">@title</h1>
@@ -46,21 +47,18 @@
                     <td>Status</td>
                    <!--This is a bit of clumsy way of making this work for the color changing field-->
                     <td class="
-                @switch (Model.Status)
+                @switch (Model.StatusId)
                 {
-                    case "Order Placed":
+                    case "placed":
                         <text>bg-info</text>
                         break;
-                    case "Ready":
+                    case "ready":
                         <text>bg-success</text>
                         break;
-                    case "Complete":
+                    case "complete":
                         <text>bg-secondary</text>
                         break;
-                    case "Overdue":
-                        <text>bg-danger</text>
-                        break;
-                    case "ON":
+                    case "on order":
                         <text>bg-danger</text>
                         break;
                 
@@ -80,7 +78,7 @@
                 </tr>
                 <tr>
                     <td>Located In</td>
-                    <td>@Model.LocatedIn</td>
+                    <td>@Model.LocationId</td>
                 </tr>
                 <tr>
                     <td>Cutting Instructions</td>
@@ -101,11 +99,11 @@
 
                 <tr>
                     <td>
-                        @if (!Model.IsReady)
+                        @if (Model.LocationId != "ready" )
                         {
                             <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@Model.OrderItemId" class="btn btn-primary">Pull</a>
                         }
-                        @if (!Model.IsComplete)
+                        @if (Model.LocationId != "complete")
                         {
                             <a asp-controller="OrderItem" asp-action="Complete" asp-route-id="@Model.OrderItemId" class="btn btn-primary">Complete</a>
                         }

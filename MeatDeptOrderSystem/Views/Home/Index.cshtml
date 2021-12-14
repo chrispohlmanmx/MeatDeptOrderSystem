@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<OrderItem>
+@model OrderItemViewModel
 @{
     ViewBag.Title = "Order List";
 }
@@ -10,57 +10,94 @@
 
 
 <a asp-controller="OrderItem" asp-action="Add">Add New Order</a>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Pickup Date/Time</th>
-            <th>Customer</th>>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            item.setStatus();
-        <tr>
-            <td>@item.ItemName</td>
-            <td>@item.pickupDate</td>
-            <td>@item.FullName</td>
-            <td class="
-                @switch (item.Status)
+<div class="row">
+    <div class="col-lg-2 ">
+        <form asp-action="Filter" method="post">
+            <div class="form-group">
+                <label>Location:</label>
+                <select name="filter" class="form-control bg-secondary text-light"
+                        asp-items="@(new SelectList(Model.Locations,
+                    "LocationId", "Name", Model.Filters.LocationId))">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Due:</label>
+                <select name="filter" class="form-control bg-secondary text-light"
+                        asp-items="@(new SelectList(Model.DueFilters,
+                    "Key", "Value", Model.Filters.Due))">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Status:</label>
+                <select name="filter" class="form-control bg-secondary text-light"
+                        asp-items="@(new SelectList(Model.Statuses,
+                    "StatusId", "Name", Model.Filters.StatusId))">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" asp-route-id="" class="btn btn-primary">Clear</a>
+        </form>
+    </div>
+
+    <div class="col-lg-10">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Pickup Date/Time</th>
+                    <th>Customer</th>>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OrderItem item in Model.OrderItems)
                 {
-                    case "Order Placed":
+
+                    <tr>
+                        <td>@item.ItemName</td>
+                        <td>@item.pickupDate</td>
+                        <td>@item.FullName</td>
+                        <td class="
+                @switch (item.StatusId)
+                {
+                    case "placed":
                         <text>bg-info</text>
                         break;
-                    case "Ready":
+                    case "ready":
                         <text>bg-success</text>
                         break;
-                    case "Complete":
+                    case "complete":
                         <text>bg-secondary</text>
                         break;
-                    case "Overdue":
+                    case "on order":
                         <text>bg-danger</text>
                         break;
-                    case "ON":
-                        <text>bg-danger</text>
-                        break;
+
+                }">
+                            @item.Status.Name
+                        </td>
+                    <td>@item.Location.Name</td>
                 
-                }">@item.Status</td>
 
-            <td>
-                <a asp-controller="OrderItem" asp-action="Details" asp-route-id="@item.OrderItemId" class="btn btn-primary">Details</a>
-                @if (!item.IsReady)
-                {
-                    <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@item.OrderItemId" class="btn btn-primary">Pull</a>
+                        <td>
+                            <a asp-controller="OrderItem" asp-action="Details" asp-route-id="@item.OrderItemId" class="btn btn-primary">Details</a>
+                            @if (item.LocationId != "ready")
+                            {
+                                <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@item.OrderItemId" class="btn btn-primary">Pull</a>
+                            }
+                            @if (item.LocationId != "complete")
+                            {
+                                <a asp-controller="OrderItem" asp-action="Complete" asp-route-id="@item.OrderItemId" class="btn btn-primary">Complete</a>
+                            }
+
+
+                        </td>
+                    </tr>
                 }
-                @if (!item.IsComplete)
-                {
-                    <a asp-controller="OrderItem" asp-action="Complete" asp-route-id="@item.OrderItemId" class="btn btn-primary">Complete</a>
-                }
-
-
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>

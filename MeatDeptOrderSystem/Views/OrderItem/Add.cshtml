@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model OrderItemViewModel
+@{
+    string title = "Add Item";
+    ViewBag.Title = title;
+}
+
+<h2>@title</h2>
+
+<form asp-action="Add" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="CurrentOrder.FirstName">Customer First Name</label>
+        <input type="text" asp-for="CurrentOrder.FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.LastName">Customer Last Name</label>
+        <input type="text" asp-for="CurrentOrder.LastName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CurrentOrder.Phone">Customer Phone Number</label>
+        <input type="tel" asp-for="CurrentOrder.Phone" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CurrentOrder.ItemName">Item Name</label>
+        <input type="text" asp-for="CurrentOrder.ItemName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.ItemBrand">Brand Name</label>
+        <input type="text" asp-for="CurrentOrder.ItemBrand" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.Quantity">Quantity</label>
+        <input type="number" asp-for="CurrentOrder.Quantity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.Weight">Weight</label>
+        <input type="number" asp-for="CurrentOrder.Weight" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.pickupDate">Pickup Date</label>
+        @Html.EditorFor(model => model.CurrentOrder.pickupDate, new { htmlAttributes = new { @class = "form-control" } })
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+
+    </div>
+    <div class="form-group" style="position: relative">
+        <label asp-for="CurrentOrder.CuttingInstructions">Cutting Instructions</label>
+        <textarea asp-for="CurrentOrder.CuttingInstructions" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.PackagingInstructions">Packaging Instructions</label>
+        <textarea asp-for="CurrentOrder.PackagingInstructions" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="CurrentOrder.OtherComments">Other Comments</label>
+        <textarea asp-for="CurrentOrder.OtherComments" class="form-control" rows="5"></textarea>
+    </div>
+    <input type="hidden" asp-for="CurrentOrder.OrderItemId" />
+    <input type="hidden" asp-for="CurrentOrder.orderedOnDate" value="@DateTime.Now" />
+    <input type="hidden" asp-for="CurrentOrder.LocationId" value="unPicked" />
+    <input type="hidden" asp-for="CurrentOrder.StatusId" value="placed" />
+
+    <button type="submit" class="btn btn-primary">
+        Add</button>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+</form>
