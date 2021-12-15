@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MeatDeptOrderSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MeatDeptOrderSystem.Controllers
 {
+    
+    [Authorize]
     public class OrderItemController : Controller
     {
         private OrderContext context { get; set; }
@@ -40,49 +43,58 @@ namespace MeatDeptOrderSystem.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult Edit(int OrderItemId)
         {
             ViewBag.Action = "Edit";
-            var item = context.OrderItems.Find(OrderItemId);
-            return View(item);
+            OrderItem item = context.OrderItems.Find(OrderItemId);
+            OrderItemViewModel model = new OrderItemViewModel(item);
+            model.Statuses = context.Statuses.ToList();
+            model.Locations = context.Locations.ToList();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(OrderItem item)
+        public IActionResult Edit(OrderItemViewModel item)
         {
             if (ModelState.IsValid)
             {
-                context.OrderItems.Update(item);  
+                context.OrderItems.Update(item.SelectedItem);  
                 context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                ViewBag.Action = (item.OrderItemId == 0) ? "Add" : "Edit";
+                ViewBag.Action = (item.SelectedItem.OrderItemId == 0) ? "Add" : "Edit";
                 return View(item);
             }
         }
         [HttpGet]
         public IActionResult Details(int id)
         {
+
             var orderitem = context.OrderItems.Find(id);
+            orderitem.Status = context.Statuses.Find(orderitem.StatusId);
+            orderitem.Location = context.Locations.Find(orderitem.LocationId);
             return View(orderitem);
         }
 
         [HttpGet]
         public IActionResult Pull(int id)
         {
-            var item = context.OrderItems.Find(id);
-            return View(item);
+            OrderItem item = context.OrderItems.Find(id);
+            OrderItemViewModel model = new OrderItemViewModel(item);
+            model.Locations = context.Locations.ToList();
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Pull(OrderItem item)
+        public IActionResult Pull(OrderItemViewModel item)
         {
             //update just the relevant fields
-            context.OrderItems.Attach(item);
-            context.Entry(item).Property(x => x.LocationId).IsModified = true;
-            context.Entry(item).Property(x => x.StatusId).IsModified = true;
+            context.OrderItems.Attach(item.SelectedItem);
+            context.Entry(item.SelectedItem).Property(x => x.LocationId).IsModified = true;
+            context.Entry(item.SelectedItem).Property(x => x.StatusId).IsModified = true;
             context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }

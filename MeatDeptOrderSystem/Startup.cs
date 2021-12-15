@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace MeatDeptOrderSystem
 {
@@ -25,10 +27,19 @@ namespace MeatDeptOrderSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddControllersWithViews();
+
             services.AddDbContext<OrderContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("OrderContext")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<OrderContext>()
+                .AddDefaultTokenProviders();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,14 +60,24 @@ namespace MeatDeptOrderSystem
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    name: "admin",
+                    areaName: "Admin",
+                    pattern: "Admin/{controller=User}/{action=Index}/{id?}");
+                
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            OrderContext.CreateAdminUser(app.ApplicationServices).Wait();
         }
     }
 }

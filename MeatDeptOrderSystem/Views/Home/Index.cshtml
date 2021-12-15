@@ -48,8 +48,9 @@
                 <tr>
                     <th>Item</th>
                     <th>Pickup Date/Time</th>
-                    <th>Customer</th>>
+                    <th>Customer</th>
                     <th>Status</th>
+                    <th>Item Location</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,20 +82,22 @@
                         </td>
                     <td>@item.Location.Name</td>
                 
+                    <td>
+                        <a asp-controller="OrderItem" asp-action="Details" asp-route-id="@item.OrderItemId" class="btn btn-primary">Details</a>
+                    </td>
+                    <td>
+                            
+                        @if (item.StatusId != "ready" && item.StatusId != "complete" )
+                        {
+                            <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@item.OrderItemId" class="btn btn-primary">Pull</a>
+                        }
+                        @if (item.StatusId == "ready")
+                        {
+                            <a asp-controller="OrderItem" asp-action="Complete" asp-route-id="@item.OrderItemId" class="btn btn-primary">Complete</a>
+                        }
 
-                        <td>
-                            <a asp-controller="OrderItem" asp-action="Details" asp-route-id="@item.OrderItemId" class="btn btn-primary">Details</a>
-                            @if (item.LocationId != "ready")
-                            {
-                                <a asp-controller="OrderItem" asp-action="Pull" asp-route-id="@item.OrderItemId" class="btn btn-primary">Pull</a>
-                            }
-                            @if (item.LocationId != "complete")
-                            {
-                                <a asp-controller="OrderItem" asp-action="Complete" asp-route-id="@item.OrderItemId" class="btn btn-primary">Complete</a>
-                            }
 
-
-                        </td>
+                    </td>
                     </tr>
                 }
             </tbody>

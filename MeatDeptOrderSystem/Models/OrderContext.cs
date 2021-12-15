@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MeatDeptOrderSystem.Models
 {
-    public class OrderContext : DbContext
+    public class OrderContext : IdentityDbContext<User>
     {
         public OrderContext(DbContextOptions<OrderContext> options)
             : base(options)
@@ -15,9 +18,36 @@ namespace MeatDeptOrderSystem.Models
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Location> Locations { get; set; }
-       
+
+        public static async Task CreateAdminUser(IServiceProvider serviceProvider)
+        {
+            UserManager<User> userManager =
+                   serviceProvider.GetRequiredService<UserManager<User>>();
+            RoleManager<IdentityRole> roleManager =
+                serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string username = "Cbaker";
+            string password = "Default1@";
+            string roleName = "Admin";
+
+            if (await roleManager.FindByNameAsync(roleName) == null)
+            {
+                await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            if (await userManager.FindByNameAsync(username) == null)
+            {
+                User user = new User { UserName = username };
+                var result = await userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, roleName);
+                }
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Status>().HasData(
                 new Status { StatusId = "ready", Name = "Ready" },
                 new Status { StatusId = "on order", Name = "On Order" },

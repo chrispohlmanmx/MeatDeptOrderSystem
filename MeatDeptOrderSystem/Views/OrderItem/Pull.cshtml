@@ -3,7 +3,7 @@
 *@
 @model OrderItemViewModel
 @{
-    string title = Model.CurrentOrder.FullName + "'s order";
+    string title = Model.SelectedItem.FullName + "'s order";
     ViewBag.Title = title;
 }
 
@@ -15,13 +15,13 @@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="form-group">
-        <label asp-for="CurrentOrder.LocationId" class="form-control">Location of Completed Order</label>
-        <select asp-for="CurrentOrder.LocationId" class="form-control" asp-items="@(new SelectList(Model.Locations, "LocationId", "Name"))">
+        <label asp-for="SelectedItem.LocationId" class="form-control">Location of Completed Order</label>
+        <select asp-for="SelectedItem.LocationId" class="form-control" asp-items="@(new SelectList(Model.Locations, "LocationId", "Name"))">
             <option value=""></option>
         </select>
     </div>
-    <input type="hidden" asp-for="CurrentOrder.OrderItemId" />
-    <input type="hidden" asp-for="CurrentOrder.StatusId" value="ready" />
+    <input type="hidden" asp-for="SelectedItem.OrderItemId" />
+    <input type="hidden" asp-for="SelectedItem.StatusId" value="ready" />
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
