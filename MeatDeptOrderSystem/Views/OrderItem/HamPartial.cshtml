@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model BoneInHam
+
+<div class="form-group">
+    <label asp-for="HalfOrWhole" class="form-control">Whole or Half Ham: </label>
+    <select asp-for="HalfOrWhole" class="form-control">
+        <option value="Whole">Whole</option>
+        <option value="Half">Half</option>
+   
+    </select>
+</div>
+
+<div class="form-group">
+    <label asp-for="HamType" class="form-control">Ham Type</label>
+    <select asp-for="HamType" class="form-control">
+        <option value="Spiral">Spiral</option>
+        <option value="Butt End">Butt End</option>
+        <option value="Shank End">Shank End</option>
+        <option value="N/A">N/A</option>
+    </select>
+</div>
